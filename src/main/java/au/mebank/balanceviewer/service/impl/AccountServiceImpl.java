@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
@@ -49,8 +51,8 @@ public class AccountServiceImpl implements AccountService {
         }).reduce(BigDecimal::add);
 
         BigDecimal relativeBalance = (totalCredit.orElse(BigDecimal.ZERO)).subtract(totalDebit.orElse(BigDecimal.ZERO));
-        LOG.info("Relative Balance is {}", relativeBalance);
-        LOG.info("Total Transactions is {}", validTransactions.size());
+        LOG.info("Relative balance for the period is: {}", NumberFormat.getCurrencyInstance().format(relativeBalance));
+        LOG.info("Number of transactions included is: {}", validTransactions.size());
     }
 
     public List<Transaction> getReverseTransactions(Map<String, Transaction> transactions, String accountId) {
